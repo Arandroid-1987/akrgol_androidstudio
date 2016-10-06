@@ -19,8 +19,8 @@ public class GlobalState extends Application {
 	private String ora = "";
 	private String oraClass = "";
 	
-	public static final String AD_UNIT_ID_INTERSTITIAL= "ca-app-pub-8851138749802557/8326498829";
-	public static final String AD_UNIT_ID_BANNER = "ca-app-pub-8851138749802557/2304828029";
+	public static final String AD_UNIT_ID_INTERSTITIAL= "ca-app-pub-2997805148414323/5594824894";
+	public static final String AD_UNIT_ID_BANNER = "ca-app-pub-2997805148414323/7071558099";
 	
 	public String getOraClass() {
 		return oraClass;

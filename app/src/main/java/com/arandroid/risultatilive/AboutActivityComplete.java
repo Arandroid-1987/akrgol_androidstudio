@@ -154,7 +154,7 @@ public class AboutActivityComplete extends Activity implements
 		builder.setPositiveButton("Invia", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				inviamail(edit.getText().toString(), "arandroid@libero.it");
+				inviamail(edit.getText().toString(), "arandroid.developers@gmail.com");
 			}
 		});
 		AlertDialog alertDialog = builder.create();
