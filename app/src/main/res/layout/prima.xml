@@ -32,10 +32,12 @@
                     style="@style/linear_style"
                     android:layout_width="wrap_content"
                     android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:orientation="vertical" >
 
                     <ImageView
                         android:src="@drawable/lnd"
+                        android:contentDescription="@string/app_name"
                         style="@style/image_style" />
 
                     <TextView
@@ -43,7 +45,7 @@
                         style="@style/font_main"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Eccellenza Calabrese" />
+                        android:text="@string/eccellenza_calabrese" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -53,6 +55,7 @@
 
                     <ImageView
                         android:src="@drawable/lnd"
+                        android:contentDescription="@string/app_name"
                         style="@style/image_style"
                          />
 
@@ -61,7 +64,7 @@
                         style="@style/font_main"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Prima Categoria" />
+                        android:text="@string/prima_categoria" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -77,10 +80,12 @@
                     android:id="@+id/serieDView"
                     style="@style/linear_style"
                     android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:orientation="vertical" >
 
                     <ImageView
                         style="@style/image_style"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/serie_d" />
 
                     <TextView
@@ -88,7 +93,7 @@
                         style="@style/font_main"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Serie D Girone I" />
+                        android:text="@string/serie_d" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,6 +103,7 @@
 
                     <ImageView
                         style="@style/image_style"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/lnd" />
 
                     <TextView
@@ -105,7 +111,7 @@
                         style="@style/font_main"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Seconda Categoria" />
+                        android:text="@string/seconda_categoria" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -132,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="About" />
+                    android:text="@string/about" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
