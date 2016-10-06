@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">AKR Gol App</string>
+    <string name="title_activity_main">AKR Gol App</string>
+    <string name="ideato">Ideato e realizzato da Arandroid Developers. Per info</string>
+    <string name="giornata">"Giornata: "</string>
+
+</resources>

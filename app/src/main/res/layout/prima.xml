@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:scrollbars="none"
+         >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="45dp" >
+
+            <LinearLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:gravity="center" >
+
+                <LinearLayout
+                    android:id="@+id/eccellenzaView"
+                    style="@style/linear_style"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:src="@drawable/lnd"
+                        style="@style/image_style" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        style="@style/font_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Eccellenza Calabrese" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/primaView"
+                    android:orientation="vertical" 
+                    style="@style/linear_style" >
+
+                    <ImageView
+                        android:src="@drawable/lnd"
+                        style="@style/image_style"
+                         />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        style="@style/font_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Prima Categoria" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout2"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:id="@+id/serieDView"
+                    style="@style/linear_style"
+                    android:layout_marginRight="8dp"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        style="@style/image_style"
+                        android:src="@drawable/serie_d" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/font_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Serie D Girone I" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/secondaView"
+                    style="@style/linear_style"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        style="@style/image_style"
+                        android:src="@drawable/lnd" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        style="@style/font_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Seconda Categoria" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/aboutView"
+                android:layout_width="288dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/my_tile"
+                android:gravity="center"
+                android:weightSum="4" >
+
+                <ImageView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/arandroid" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/font_about"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="About" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bannerLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</RelativeLayout>
