@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,7 +19,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
-public class PrimaActivity extends Activity implements OnClickListener {
+public class PrimaActivity extends AppCompatActivity implements OnClickListener {
 	private View eccellenzaView;
 	private View primaView;
 	private View secondaView;
@@ -31,12 +33,7 @@ public class PrimaActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
-		setContentView(R.layout.prima);
-
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.window_title);
+		setContentView(R.layout.activity_main);
 
 		eccellenzaView = findViewById(R.id.eccellenzaView);
 		primaView = findViewById(R.id.primaView);
@@ -49,20 +46,8 @@ public class PrimaActivity extends Activity implements OnClickListener {
 		secondaView.setOnClickListener(this);
 		serieDView.setOnClickListener(this);
 		aboutView.setOnClickListener(this);
-
-		// banners
-		//manager = BannerManager.getInstance();
-//		containerLayout = (LinearLayout) findViewById(R.id.bannerLL);
-//		GlobalState gs = (GlobalState) getApplication();
-//		gs.setupBanners(this);
 		
 		gs = (GlobalState) getApplication();
-
-		// banners -- caricamento da sito arandroid
-		/*manager = BannerManager.getInstance();
-		containerLayout = (LinearLayout) findViewById(R.id.bannerLL);
-		GlobalState gs = (GlobalState) getApplication();
-		gs.setupBanners(this);*/
 		
 		// banners -- caricamento da ADMOB
 		adsLL = (LinearLayout) findViewById(R.id.bannerLL);
@@ -74,7 +59,7 @@ public class PrimaActivity extends Activity implements OnClickListener {
 		// Aggiungiamo la view adView al LinearLayout
 		adsLL.addView(adView);
 		// Richiediamo un nuovo banner al server di AdMod
-		AdRequest adRequest = new AdRequest.Builder().build();
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice("C35CE538C6C4C40FBC539EA1081013D7").build();
 
 		// Start loading the ad in the background.
 		adView.loadAd(adRequest);
@@ -83,11 +68,11 @@ public class PrimaActivity extends Activity implements OnClickListener {
 		
 	}
 
-	@Override
-	public void onBackPressed() {
-		Dialog d = DialogBuilder.createExitDialog(this);
-		d.show();
-	}
+//	@Override
+//	public void onBackPressed() {
+//		Dialog d = DialogBuilder.createExitDialog(this);
+//		d.show();
+//	}
 
 	@Override
 	public void onClick(View v) {
@@ -102,15 +87,17 @@ public class PrimaActivity extends Activity implements OnClickListener {
 			} else {
 				String url = "";
 				if (v.equals(primaView)) {
-					url = "http://www.radioakr.it/sport/risultati-e-classifiche/prima-categoria-girone-a/";
+//					url = "http://www.radioakr.it/sport/risultati-e-classifiche/prima-categoria-girone-a/";
+                    url = "http://www.radioakr.it/promozione-calabrese-20162017/";
 				} else if (v.equals(eccellenzaView)) {
-					url = "http://www.radioakr.it/sport/risultati-e-classifiche/eccellenza/";
+//					url = "http://www.radioakr.it/sport/risultati-e-classifiche/eccellenza/";
+					url = "http://www.radioakr.it/eccellenza-calabrese-20132014/";
 				} else if (v.equals(serieDView)) {
 					url = "http://www.radioakr.it/sport/risultati-e-classifiche/serie-d-girone-i/";
 				}else if (v.equals(secondaView)) {
 					url = "http://www.radioakr.it/sport/risultati-e-classifiche/calcio-seconda-cat-girone-a/";
 				}
-				Intent intent = new Intent(this, TabLayoutActivity.class);
+				Intent intent = new Intent(this, LegaActivity.class);
 				intent.putExtra("url", url);
 				startActivity(intent);
 			}

@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -21,16 +22,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.Utils.EntryAdapter;
-import com.Utils.EntryItem;
-import com.Utils.Item;
-import com.Utils.SectionItem;
+import com.arandroid.risultatilive.utils.EntryAdapter;
+import com.arandroid.risultatilive.utils.EntryItem;
+import com.arandroid.risultatilive.utils.Item;
+import com.arandroid.risultatilive.utils.SectionItem;
 import com.arandroid.risultatilive.core.GlobalState;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class AboutActivityComplete extends Activity implements
+public class AboutActivityComplete extends AppCompatActivity implements
 		OnItemClickListener {
 	/** Called when the activity is first created. */
 
@@ -48,10 +49,7 @@ public class AboutActivityComplete extends Activity implements
 
 		try {
 			super.onCreate(savedInstanceState);
-			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 			setContentView(R.layout.aboutcomplete);
-			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-					R.layout.window_title);
 			listView = (ListView) findViewById(R.id.lvab);
 			PackageManager manager = this.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);

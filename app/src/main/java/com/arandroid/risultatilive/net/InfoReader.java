@@ -1,20 +1,15 @@
 package com.arandroid.risultatilive.net;
 
+import java.io.InputStream;
 import java.net.URL;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.sax.SAXSource;
-
-import org.ccil.cowan.tagsoup.Parser;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 
 import com.arandroid.risultatilive.core.Squadra;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class InfoReader {
 	private Squadra s;
@@ -25,45 +20,20 @@ public class InfoReader {
 	}
 
 	public Squadra read() {
+		Document doc;
 		try {
-			URL url = new URL(s.getLink());
-			XMLReader reader = new Parser();
-			reader.setFeature(Parser.namespacesFeature, false);
-			reader.setFeature(Parser.namespacePrefixesFeature, false);
+			InputStream input = new URL(s.getLink()).openStream();
+			doc = Jsoup.parse(input, "UTF-8", s.getLink());
 
-			Transformer transformer = TransformerFactory.newInstance()
-					.newTransformer();
-
-			DOMResult result = new DOMResult();
-			transformer.transform(
-					new SAXSource(reader, new InputSource(url.openStream())),
-					result);
-			Element document = ((Document) result.getNode())
-					.getDocumentElement(); // radice documento
-
-			NodeList allDivs = document.getElementsByTagName("div");
-			Element table = null;
-			for (int i = 0; i < allDivs.getLength(); i++) {
-				Element node = (Element) allDivs.item(i);
-				String value = node.getAttribute("class");
-				if (value.equals("teampage")) {
-					table = node;
-					break;
-				}
+			Element table = doc.select("dl.team").first();
+			Elements alldd = table.select("dd");
+			for (int i = 0; i < alldd.size(); i++) {
+				str[i]= alldd.get(i).text();
 			}
-			NodeList alldd = table.getElementsByTagName("dd");
-			NodeList allp = table.getElementsByTagName("p");
-			for (int i = 0; i < alldd.getLength()-2; i++) {
-				Element node2= (Element) alldd.item(i);
-				String val = node2.getFirstChild().getNodeValue();
-				str[i]=val;
-				
-			}
-			String match = "";
-			for (int i = 4; i < allp.getLength(); i+=2) {
-				Element node = (Element) allp.item(i);
-				match += node.getFirstChild().getNodeValue()+" ";
-			}
+			Element prevMatch = doc.select("div.prev_match").first();
+            String prevMatchDesc = prevMatch.select(".match").first().text();
+            String score = prevMatch.select(".score").first().text();
+			String match = prevMatchDesc+" "+score;
 			s.setPosizione(str[0]);
 			s.setIncontri(str[1]);
 			s.setWon(str[2]);

@@ -7,6 +7,7 @@ import com.arandroid.risultatilive.R;
 import com.arandroid.risultatilive.core.Squadra;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -91,4 +91,8 @@ public class Squadra {
 		this.score = score;
 	}
 
+	@Override
+	public String toString() {
+		return nome;
+	}
 }

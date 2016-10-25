@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="CustomWindowTitleBackground">
-        <item name="android:background">#323331</item>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme" parent="android:Theme">
-        <item name="android:windowTitleSize">45dp</item>
-        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
-    </style>
-
-    <style name="MyTheme"></style>
     <style name="font_main">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
+
     <style name="font_about" parent="@style/font_main">
         <item name="android:textSize">22sp</item>
     </style>
-    
+
     <style name="linear_style">
         <item name="android:layout_height">160dp</item>
         <item name="android:layout_width">140dp</item>
         <item name="android:background">@drawable/my_tile</item>
     </style>
-    
+
+    <style name="linear_style_disabled">
+        <item name="android:layout_height">160dp</item>
+        <item name="android:layout_width">140dp</item>
+        <item name="android:background">@drawable/my_tile_disabled</item>
+    </style>
+
     <style name="image_style">
         <item name="android:layout_height">140dp</item>
         <item name="android:layout_width">140dp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="diagonal_text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:rotation">315</item>
     </style>
 
 </resources>

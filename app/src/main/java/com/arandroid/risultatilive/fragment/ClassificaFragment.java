@@ -1,4 +1,4 @@
-package com.arandroid.risultatilive;
+package com.arandroid.risultatilive.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,13 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -16,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arandroid.risultatilive.R;
+import com.arandroid.risultatilive.TaskInfo;
 import com.arandroid.risultatilive.core.GlobalState;
 import com.arandroid.risultatilive.core.Squadra;
 import com.arandroid.risultatilive.ui.ClassArrayAdapter;
@@ -23,7 +30,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class ClassificaActivity extends Activity implements
+public class ClassificaFragment extends Fragment implements
 		OnItemClickListener, OnClickListener {
 	private ProgressDialog p;
 	private List<Squadra> listaRis = new ArrayList<Squadra>();
@@ -35,37 +42,36 @@ public class ClassificaActivity extends Activity implements
 	private TextView tvv;
 	private InterstitialAd interstitialAd;
 
+	@Nullable
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.classifica);
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.classifica, container, false);
 
-		url = getIntent().getStringExtra("url");
-		listView = (ListView) findViewById(R.id.ListView);
+		url = getActivity().getIntent().getStringExtra("url");
+		listView = (ListView) view.findViewById(R.id.ListView);
 		int layoutID = R.layout.notizia;
-		arrayAdapter = new ClassArrayAdapter(ClassificaActivity.this, layoutID,
-				listaRis);
-		gs = (GlobalState) getApplication();
-		tvv = (TextView) findViewById(R.id.textdata);
 
-		aggiorna = (Button) findViewById(R.id.buttonaggiorna);
+		arrayAdapter = new ClassArrayAdapter(getActivity(), layoutID,
+				listaRis);
+		gs = (GlobalState) getActivity().getApplication();
+		tvv = (TextView) view.findViewById(R.id.textdata);
+
+		aggiorna = (Button) view.findViewById(R.id.buttonaggiorna);
 		aggiorna.setOnClickListener(this);
 		listView.setAdapter(arrayAdapter);
 		listView.setOnItemClickListener(this);
-		p = new ProgressDialog(ClassificaActivity.this);
+		p = new ProgressDialog(getActivity());
 
 		// Create an ad.
-	    interstitialAd = new InterstitialAd(this);
+	    interstitialAd = new InterstitialAd(getActivity());
 	    interstitialAd.setAdUnitId(GlobalState.AD_UNIT_ID_INTERSTITIAL);
-	    
+
 	    // Create ad request.
-	    AdRequest adRequest = new AdRequest.Builder().build();
+	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("C35CE538C6C4C40FBC539EA1081013D7").build();
 
 	    // Begin loading your interstitial.
 	    interstitialAd.loadAd(adRequest);
-	    
-	   
-	    
+
 	    // Set the AdListener.
 	    interstitialAd.setAdListener(new AdListener() {
 	    	public void onAdLoaded(){
@@ -74,10 +80,12 @@ public class ClassificaActivity extends Activity implements
 	               new Thread(cl).start();
 	          }
 	    });
-	    
+
 		p.show();
 		p.setCancelable(false);
 		p.setMessage("Caricamento in corso");
+
+		return view;
 
 	}
 
@@ -102,17 +110,18 @@ public class ClassificaActivity extends Activity implements
 		
 		final List<Squadra> li = gs.getClassifica(url);
 
-		runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				listaRis.clear();
 				listaRis.addAll(li);
+                listaRis.add(new Squadra());
 				if (arrayAdapter != null)
 					arrayAdapter.notifyDataSetChanged();
 				p.dismiss();
 				tvv.setText(gs.getOraClass());
 				if (li.isEmpty()) {
-					Toast.makeText(ClassificaActivity.this, "Errore di connessione", Toast.LENGTH_SHORT)
+					Toast.makeText(getActivity(), "Errore di connessione", Toast.LENGTH_SHORT)
 							.show();
 				}
 			}
@@ -131,7 +140,7 @@ public class ClassificaActivity extends Activity implements
 	private void visualizzaInfoSquadra(int i) {
 		Squadra s = listaRis.get(i);
 		// String link = s.getLink();
-		TaskInfo ti = new TaskInfo(s, ClassificaActivity.this);
+		TaskInfo ti = new TaskInfo(s, getActivity());
 		ti.execute();
 	}
 
@@ -143,11 +152,5 @@ public class ClassificaActivity extends Activity implements
 		new Thread(cl).start();
 		tvv.setText(gs.getOraClass());
 
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		gs.reset();
 	}
 }

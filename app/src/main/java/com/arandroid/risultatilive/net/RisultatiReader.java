@@ -1,20 +1,15 @@
 package com.arandroid.risultatilive.net;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.sax.SAXSource;
 
-import org.ccil.cowan.tagsoup.Parser;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.arandroid.risultatilive.core.Risultati;
 import com.arandroid.risultatilive.core.Risultato;
@@ -25,70 +20,37 @@ public class RisultatiReader {
 	}
 
 	public Risultati read(String feed) {
-		Risultati risultato = new Risultati();
+		Risultati risultati = new Risultati();
 		List<Risultato> ris = new LinkedList<Risultato>();
-		risultato.setList(ris);
+		risultati.setList(ris);
+		Document doc;
 		try {
-			URL url = new URL(feed);
-			XMLReader reader = new Parser();
-			reader.setFeature(Parser.namespacesFeature, false);
-			reader.setFeature(Parser.namespacePrefixesFeature, false);
+			InputStream input = new URL(feed).openStream();
+			doc = Jsoup.parse(input, "UTF-8", feed);
+			Elements partite = doc.select("table.matchtable td.match");
+			Elements risultatiElem = doc.select("table.matchtable td.score");
 
-			Transformer transformer = TransformerFactory.newInstance()
-					.newTransformer();
-
-			DOMResult result = new DOMResult();
-			transformer.transform(
-					new SAXSource(reader, new InputSource(url.openStream())),
-					result);
-			Element document = ((Document) result.getNode())
-					.getDocumentElement(); // radice documento
-			NodeList allDivs = document.getElementsByTagName("td");
-			List<Element> partite = new LinkedList<Element>();
-			List<Element> risultati = new LinkedList<Element>();
-
-			for (int i = 0; i < allDivs.getLength(); i++) {
-				Element node = (Element) allDivs.item(i);
-				String value = node.getAttribute("class");
-				if (value.equals("match"))
-					partite.add(node);
-				else if (value.equals("score"))
-					risultati.add(node);
-
-			}
 			for (int i = 0; i < partite.size(); i++) {
 				Element table = partite.get(i);
-				String Date = table.getFirstChild().getNodeValue();
-				Element linkElem = (Element) table.getElementsByTagName("a")
-						.item(0);
-				String a = linkElem.getFirstChild().getNodeValue();
-				if (a == null) {
-					Element linkElem2 = (Element) table.getElementsByTagName(
-							"strong").item(0);
-					a = linkElem2.getFirstChild().getNodeValue();
-				}
-				Element table2 = risultati.get(i);
-				String b = table2.getFirstChild().getNodeValue();
+				String data = table.text();
+				Element linkElem = table.select("a").first();
+				String partita = linkElem.text().trim();
+                data = data.replace(partita, "");
+				Element table2 = risultatiElem.get(i);
+				String risult = table2.text().trim();
 				Risultato r = new Risultato();
-				r.setMatch(a.trim());
-				r.setRisultato(b.trim());
-				r.setDate(Date);
+				r.setMatch(partita);
+				r.setRisultato(risult);
+				r.setDate(data);
 				ris.add(r);
 			}
-			String giornata = "";
-			NodeList allOptions = document.getElementsByTagName("option");
-			for (int i = 0; i < allOptions.getLength(); i++) {
-				Element optionElem = (Element) allOptions.item(i);
-				if(optionElem.hasAttribute("selected")){
-					giornata = optionElem.getAttribute("value");
-					break;
-				}
-			}
-			risultato.setGiornata(giornata);
+			Element giornataElem = doc.select("form select option[selected]").first();
+			String giornata = giornataElem.text();
+			risultati.setGiornata(giornata);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		return risultato;
+		return risultati;
 	}
 }

@@ -1,21 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/buttonaggiorna"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="19dp"
-            android:text="Aggiorna" />
+            android:layout_marginStart="19dp"
+            android:text="@string/aggiorna" />
 
         <TextView
             android:id="@+id/textdata"
@@ -23,8 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/buttonaggiorna"
             android:layout_alignBottom="@+id/buttonaggiorna"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_toRightOf="@+id/buttonaggiorna"
+            android:layout_toEndOf="@+id/buttonaggiorna"
              />
 
     </RelativeLayout>
@@ -32,8 +35,7 @@
     <ListView
         android:id="@+id/ListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl" >
+        android:layout_height="match_parent">
     </ListView>
 
-</RelativeLayout>
+</LinearLayout>

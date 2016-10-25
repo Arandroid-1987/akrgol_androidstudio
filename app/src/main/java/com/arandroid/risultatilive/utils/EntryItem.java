@@ -1,4 +1,4 @@
-package com.Utils;
+package com.arandroid.risultatilive.utils;
 
 
 public class EntryItem implements Item{
