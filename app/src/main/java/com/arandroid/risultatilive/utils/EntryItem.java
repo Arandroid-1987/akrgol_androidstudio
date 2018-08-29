@@ -1,27 +1,26 @@
 package com.arandroid.risultatilive.utils;
 
 
-public class EntryItem implements Item{
+public class EntryItem implements Item {
+    public final String title;
+    public final String subtitle;
 
-	public final String title;
-	public final String subtitle;
+    public EntryItem(String title, String subtitle) {
+        this.title = title;
+        this.subtitle = subtitle;
+    }
 
-	public EntryItem(String title, String subtitle) {
-		this.title = title;
-		this.subtitle = subtitle;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getSubtitle() {
-		return subtitle;
-	}
+    public String getSubtitle() {
+        return subtitle;
+    }
 
-	@Override
-	public boolean isSection() {
-		return false;
-	}
+    @Override
+    public boolean isSection() {
+        return false;
+    }
 
 }

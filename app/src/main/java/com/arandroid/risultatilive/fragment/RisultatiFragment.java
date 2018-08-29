@@ -1,10 +1,9 @@
 package com.arandroid.risultatilive.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,14 +25,14 @@ import com.arandroid.risultatilive.core.Risultati;
 import com.arandroid.risultatilive.core.Risultato;
 import com.arandroid.risultatilive.ui.RisArrayAdapter;
 
-public class RisultatiFragment extends Fragment implements OnClickListener,
-        OnItemSelectedListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RisultatiFragment extends Fragment implements OnClickListener, OnItemSelectedListener {
     private ProgressDialog p;
-    private List<Risultato> listaRis = new ArrayList<Risultato>();
-    private ListView listView;
+    private List<Risultato> listaRis = new ArrayList<>();
     private ArrayAdapter<Risultato> arrayAdapter;
     private String url;
-    private Button aggiorna;
     private GlobalState gs;
     private TextView tvv;
     private Spinner selector;
@@ -41,45 +40,44 @@ public class RisultatiFragment extends Fragment implements OnClickListener,
 
     private List<Risultato> li;
     private Risultati ris;
+    private Activity activity;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.risultati, container, false);
+        activity = getActivity();
+        if (activity != null) {
+            url = activity.getIntent().getStringExtra("url");
 
-        url = getActivity().getIntent().getStringExtra("url");
+            ListView listView = view.findViewById(R.id.ListView);
+            int layoutID = R.layout.chartrow;
+            arrayAdapter = new RisArrayAdapter(activity, layoutID, listaRis);
+            gs = (GlobalState) activity.getApplication();
+            p = new ProgressDialog(activity);
+            CaricaRis cl = new CaricaRis();
+            tvv = view.findViewById(R.id.textdata);
 
-        listView = (ListView) view.findViewById(R.id.ListView);
-        int layoutID = R.layout.chartrow;
-        arrayAdapter = new RisArrayAdapter(getActivity(), layoutID,
-                listaRis);
-        gs = (GlobalState) getActivity().getApplication();
-        p = new ProgressDialog(getActivity());
-        CaricaRis cl = new CaricaRis();
-        tvv = (TextView) view.findViewById(R.id.textdata);
+            selector = view.findViewById(R.id.spinner1);
 
-        selector = (Spinner) view.findViewById(R.id.spinner1);
+            // codice spinner
+            ArrayAdapter<CharSequence> adp = new ArrayAdapter<CharSequence>(activity, android.R.layout.simple_spinner_item);
 
-        // codice spinner
-        ArrayAdapter<CharSequence> adp = new ArrayAdapter<CharSequence>(
-                getActivity(), android.R.layout.simple_spinner_item);
+            for (int i = 0; i < NUMERO_GIORNATE; i++) {
+                adp.add("" + (i + 1));
+            }
 
-        for (int i = 0; i < NUMERO_GIORNATE; i++) {
-            adp.add("" + (i + 1));
+            adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            selector.setAdapter(adp);
+
+            Button aggiorna = view.findViewById(R.id.buttonaggiorna);
+            aggiorna.setOnClickListener(this);
+            listView.setAdapter(arrayAdapter);
+            new Thread(cl).start();
+            p.show();
+            p.setCancelable(false);
+            p.setMessage("Caricamento in corso");
         }
-
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selector.setAdapter(adp);
-
-
-        aggiorna = (Button) view.findViewById(R.id.buttonaggiorna);
-        aggiorna.setOnClickListener(this);
-        listView.setAdapter(arrayAdapter);
-        new Thread(cl).start();
-        p.show();
-        p.setCancelable(false);
-        p.setMessage("Caricamento in corso");
-
         return view;
     }
 
@@ -96,15 +94,11 @@ public class RisultatiFragment extends Fragment implements OnClickListener,
 
         @Override
         public void run() {
-
             load(giornata);
         }
-
     }
 
     private void load(int day) {
-        // RisultatiReader rr = new RisultatiReader(this.getResources());
-        // List<Risultato> li = rr.read(url);
         ris = null;
         li = null;
         if (day == -1) {
@@ -115,7 +109,7 @@ public class RisultatiFragment extends Fragment implements OnClickListener,
             li = ris.getList();
         }
 
-        getActivity().runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 listaRis.clear();
@@ -130,13 +124,13 @@ public class RisultatiFragment extends Fragment implements OnClickListener,
                 }
                 selector.setSelection(gior - 1, false);
                 selector.setOnItemSelectedListener(RisultatiFragment.this);
-                if (arrayAdapter != null)
+                if (arrayAdapter != null) {
                     arrayAdapter.notifyDataSetChanged();
+                }
                 p.dismiss();
                 tvv.setText(gs.getOra());
                 if (li == null || li.isEmpty()) {
-                    Toast.makeText(getActivity(),
-                            "Errore di connessione", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Errore di connessione", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -152,11 +146,8 @@ public class RisultatiFragment extends Fragment implements OnClickListener,
         tvv.setText(gs.getOra());
     }
 
-
-
     @Override
-    public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
-                               long arg3) {
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
         p.show();
         gs.setRisultatiaggiornati(true);
         CaricaRis cl = new CaricaRis(position + 1);

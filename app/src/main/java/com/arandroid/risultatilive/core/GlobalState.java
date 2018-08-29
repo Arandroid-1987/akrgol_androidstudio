@@ -1,21 +1,20 @@
 package com.arandroid.risultatilive.core;
 
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
+import android.app.Application;
 
 import com.arandroid.risultatilive.net.ClassificaReader;
 import com.arandroid.risultatilive.net.RisultatiReader;
 
-import android.app.Application;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GlobalState extends Application {
     private boolean risultatiaggiornati;
     private boolean classificaaggiornata;
-    ;
+
     private boolean adsBannerShown = false;
-    private List<Squadra> list = new LinkedList<Squadra>();
-    //	private List<Risultato> ris = new LinkedList<Risultato>();
+    private List<Squadra> list = new LinkedList<>();
     private Risultati ris = new Risultati();
     private String ora = "";
     private String oraClass = "";
@@ -47,30 +46,25 @@ public class GlobalState extends Application {
         this.risultatiaggiornati = risultatiaggiornati;
     }
 
-
     public void reset() {
         ris = new Risultati();
-//		ris.setList(new LinkedList<Risultato>());
-        list = new LinkedList<Squadra>();
+        list = new LinkedList<>();
         classificaaggiornata = false;
         risultatiaggiornati = false;
     }
 
     public List<Squadra> getClassifica(String url) {
-        if (list == null || list.isEmpty() || list.size() == 1
-                || risultatiaggiornati || classificaaggiornata) {
+        if (list == null || list.isEmpty() || list.size() == 1 || risultatiaggiornati || classificaaggiornata) {
             list = new ClassificaReader().read(url);
             risultatiaggiornati = false;
             oraClass = dammiOra();
         }
-        if (list == null) list = new LinkedList<Squadra>();
+        if (list == null) list = new LinkedList<>();
         return list;
     }
 
     public Risultati getRisultati(String url) {
-
-        if (ris == null || ris.getList() == null
-                || classificaaggiornata || risultatiaggiornati) {
+        if (ris == null || ris.getList() == null || classificaaggiornata || risultatiaggiornati) {
             ris = new RisultatiReader().read(url);
             classificaaggiornata = false;
             ora = dammiOra();

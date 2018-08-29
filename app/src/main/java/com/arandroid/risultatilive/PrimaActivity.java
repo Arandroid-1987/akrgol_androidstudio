@@ -1,20 +1,15 @@
 package com.arandroid.risultatilive;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.arandroid.risultatilive.core.GlobalState;
 import com.arandroid.risultatilive.net.NetworkUtility;
-import com.arandroid.risultatilive.ui.DialogBuilder;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -25,15 +20,13 @@ public class PrimaActivity extends AppCompatActivity implements OnClickListener 
 	private View secondaView;
 	private View serieDView;
 	private View aboutView;
-	private LinearLayout adsLL;
 	private GlobalState gs;
-	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_prima);
 
 		eccellenzaView = findViewById(R.id.eccellenzaView);
 		primaView = findViewById(R.id.primaView);
@@ -50,7 +43,7 @@ public class PrimaActivity extends AppCompatActivity implements OnClickListener 
 		gs = (GlobalState) getApplication();
 		
 		// banners -- caricamento da ADMOB
-		adsLL = (LinearLayout) findViewById(R.id.bannerLL);
+		LinearLayout adsLL = findViewById(R.id.bannerLL);
 		AdView adView = new AdView(this);
 		adView.setAdSize(AdSize.BANNER);
 		adView.setAdUnitId(GlobalState.AD_UNIT_ID_BANNER);
@@ -63,16 +56,7 @@ public class PrimaActivity extends AppCompatActivity implements OnClickListener 
 
 		// Start loading the ad in the background.
 		adView.loadAd(adRequest);
-		
-		
-		
 	}
-
-//	@Override
-//	public void onBackPressed() {
-//		Dialog d = DialogBuilder.createExitDialog(this);
-//		d.show();
-//	}
 
 	@Override
 	public void onClick(View v) {
@@ -87,10 +71,8 @@ public class PrimaActivity extends AppCompatActivity implements OnClickListener 
 			} else {
 				String url = "";
 				if (v.equals(primaView)) {
-//					url = "http://www.radioakr.it/sport/risultati-e-classifiche/prima-categoria-girone-a/";
                     url = "http://www.radioakr.it/promozione-calabrese-20162017/";
 				} else if (v.equals(eccellenzaView)) {
-//					url = "http://www.radioakr.it/sport/risultati-e-classifiche/eccellenza/";
 					url = "http://www.radioakr.it/eccellenza-calabrese-20132014/";
 				} else if (v.equals(serieDView)) {
 					url = "http://www.radioakr.it/sport/risultati-e-classifiche/serie-d-girone-i/";

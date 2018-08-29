@@ -1,7 +1,6 @@
 package com.arandroid.risultatilive.utils;
 
 public class SectionItem implements Item{
-
 	private final String title;
 	
 	public SectionItem(String title) {
